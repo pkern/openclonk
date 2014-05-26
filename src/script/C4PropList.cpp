@@ -700,7 +700,9 @@ C4ValueArray * C4PropList::GetProperties() const
 	{
 		a = GetPrototype()->GetProperties();
 		i = a->GetSize();
-		a->SetSize(i + Properties.GetSize());
+		a->SetSize(i + Properties.GetSize() + (GetPrototype()->GetPrototype() ? 0 : 1));
+		if (!GetPrototype()->GetPrototype())
+			(*a)[i++] = C4VString(&Strings.P[P_Prototype]);
 	}
 	else
 	{
