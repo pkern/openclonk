@@ -1268,7 +1268,7 @@ bool C4PlayerControl::ExecuteControlScript(int32_t iControl, C4ID idControlExtra
 		x = rKeyExtraData.game_x; y = rKeyExtraData.game_y;
 	}
 	// exec control function
-	C4AulParSet Pars(C4VInt(iPlr), C4VInt(iControl), C4VPropList(C4Id2Def(idControlExtraData)), C4VInt(x), C4VInt(y), C4VInt(rKeyExtraData.iStrength), C4VBool(fRepeated), C4VBool(fUp));
+	C4AulParSet Pars(iPlr, iControl, C4Id2Def(idControlExtraData), x, y, rKeyExtraData.iStrength, fRepeated, fUp);
 	return ::ScriptEngine.GetPropList()->Call(PSF_PlayerControl, &Pars).getBool();
 }
 
