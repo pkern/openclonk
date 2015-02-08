@@ -114,9 +114,6 @@
 /* compile with debug options */
 #cmakedefine _DEBUG 1
 
-/* Define to 1 if you have support for precompiled headers */
-#cmakedefine HAVE_PRECOMPILED_HEADERS 1
-
 /* Select an audio provider */
 #define AUDIO_TK_NONE 0
 #define AUDIO_TK_OPENAL 1
