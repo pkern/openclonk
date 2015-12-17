@@ -19,7 +19,6 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
-#include "gamescript/C4Script.h"
 #include "script/C4ScriptHost.h"
 #include "lib/C4Random.h"
 #include "object/C4DefList.h"
