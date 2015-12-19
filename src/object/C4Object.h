@@ -120,6 +120,7 @@ class C4Object: public C4PropListNumbered
 {
 private:
 	void UpdateInMat();
+	void Splash();
 public:
 	C4Object();
 	~C4Object();
