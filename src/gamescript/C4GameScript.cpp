@@ -43,6 +43,11 @@
 #include <C4Viewport.h>
 #include <C4FoW.h>
 
+C4Effect ** FnGetEffectsFor(C4Object * pTarget)
+{
+	return pTarget ? &pTarget->pEffects : &Game.pGlobalEffects;
+}
+
 // undocumented!
 static bool FnIncinerateLandscape(C4PropList * _this, long iX, long iY, long caused_by_plr)
 {
@@ -2185,7 +2190,7 @@ static C4Effect * FnGetEffect(C4PropList * _this, C4String *psEffectName, C4Obje
 {
 	const char *szEffect = FnStringPar(psEffectName);
 	// get effects
-	C4Effect *pEffect = pTarget ? pTarget->pEffects : Game.pGlobalEffects;
+	C4Effect *pEffect = *FnGetEffectsFor(pTarget);
 	if (!pEffect) return NULL;
 	// name/wildcard given: find effect by name and index
 	if (szEffect && *szEffect)
@@ -2202,7 +2207,7 @@ static bool FnRemoveEffect(C4PropList * _this, C4String *psEffectName, C4Object 
 	// otherwise, the correct effect will be searched in the target's effects or in the global ones
 	if (!pEffect)
 	{
-		pEffect = pTarget ? pTarget->pEffects : Game.pGlobalEffects;
+		pEffect = *FnGetEffectsFor(pTarget);
 		// the object has no effects attached, nothing to look for
 		if (!pEffect) return 0;
 		// name/wildcard given: find effect by name
@@ -2231,7 +2236,7 @@ static C4Value FnCheckEffect(C4PropList * _this, C4String * psEffectName, C4Obje
 	if (pTarget && !pTarget->Status) return C4Value();
 	if (!szEffect || !*szEffect) return C4Value();
 	// get effects
-	C4Effect *pEffect = pTarget ? pTarget->pEffects : Game.pGlobalEffects;
+	C4Effect *pEffect = *FnGetEffectsFor(pTarget);
 	if (!pEffect) return C4Value();
 	// let them check
 	C4Effect * r = pEffect->Check(pTarget, szEffect, iPrio, iTimerInterval, Val1, Val2, Val3, Val4);
@@ -2245,7 +2250,7 @@ static long FnGetEffectCount(C4PropList * _this, C4String *psEffectName, C4Objec
 	// evaluate parameters
 	const char *szEffect = FnStringPar(psEffectName);
 	// get effects
-	C4Effect *pEffect = pTarget ? pTarget->pEffects : Game.pGlobalEffects;
+	C4Effect *pEffect = *FnGetEffectsFor(pTarget);
 	if (!pEffect) return false;
 	// count effects
 	if (!*szEffect) szEffect = 0;
