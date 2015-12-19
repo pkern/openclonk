@@ -112,6 +112,7 @@ if (GTEST_FOUND AND GMOCK_FOUND)
         SOURCES
             aul/aul_test.cpp
             ../src/script/C4ScriptStandaloneStubs.cpp
+            ../src/script/C4ScriptStandalone.cpp
         LIBRARIES
             libmisc
             libc4script)
