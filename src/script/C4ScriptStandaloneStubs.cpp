@@ -37,8 +37,11 @@ C4AulScriptEngine ScriptEngine;
 /* Avoid a C4Object dependency */
 C4Effect ** FnGetEffectsFor(C4PropList * pTarget)
 {
-	if (pTarget) throw C4AulExecError("Only global effects are supported");
-	return &ScriptEngine.pGlobalEffects;
+	if (pTarget == ScriptEngine.GetPropList())
+		return &ScriptEngine.pGlobalEffects;
+	if (pTarget == GameScript.GetPropList())
+		return &GameScript.pScenarioEffects;
+	throw C4AulExecError("Only global and scenario effects are supported");
 }
 
 /* Stubs */
