@@ -49,6 +49,8 @@ C4Effect ** FnGetEffectsFor(C4PropList * pTarget)
 	{
 		if (pTarget == ScriptEngine.GetPropList())
 			return &ScriptEngine.pGlobalEffects;
+		if (pTarget == GameScript.GetPropList())
+			return &GameScript.pScenarioEffects;
 		C4Object * Obj = pTarget->GetObject();
 		if (!Obj)
 			throw C4AulExecError("Effect target has to be an object");
