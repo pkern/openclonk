@@ -19,7 +19,7 @@
         <param>
           <type>object</type>
           <name>target</name>
-          <desc>Target object for the effect. If <code>nil</code>, a global effect is created.</desc>
+          <desc>Target object for the effect. If <code>nil</code>, <code>Global</code> is used, but the target parameter of the callbacks will get <code>nil</code>.</desc>
           <optional />
         </param>
         <param>
