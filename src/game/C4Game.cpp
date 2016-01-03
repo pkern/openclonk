@@ -548,7 +548,7 @@ void C4Game::Clear()
 
 	// stop statistics
 	pNetworkStatistics.reset();
-	C4AulProfiler::Abort();
+	::AulExec.AbortProfiling();
 
 	// exit gui
 	pGUI->Clear();
@@ -2037,7 +2037,7 @@ bool C4Game::ReloadDef(C4ID id)
 			if (obj->id == id)
 				obj->AssignRemoval();
 		// safety: If a removed def is being profiled, profiling must stop
-		C4AulProfiler::Abort();
+		::AulExec.AbortProfiling();
 		// Kill def
 		::Definitions.Remove(pDef);
 		// Log

@@ -743,15 +743,15 @@ static bool FnStartScriptProfiler(C4PropList * _this, C4Def * pDef)
 	if (pDef)
 		pScript = &pDef->Script;
 	else
-		pScript = &::ScriptEngine;
+		pScript = NULL;
 	// profile it
-	C4AulProfiler::StartProfiling(pScript);
+	::AulExec.StartProfiling(pScript);
 	return true;
 }
 
 static bool FnStopScriptProfiler(C4PropList * _this)
 {
-	C4AulProfiler::StopProfiling();
+	::AulExec.StopProfiling();
 	return true;
 }
 

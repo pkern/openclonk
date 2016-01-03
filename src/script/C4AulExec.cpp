@@ -930,7 +930,10 @@ void C4AulExec::StartProfiling(C4AulScript *pProfiledScript)
 	C4TimeMilliseconds tNow = C4TimeMilliseconds::Now();
 	tDirectExecStart = tNow; // in case profiling is started from DirectExec
 	tDirectExecTotal = 0;
-	pProfiledScript->ResetProfilerTimes();
+	if(pProfiledScript)
+		pProfiledScript->GetPropList()->ResetProfilerTimes();
+	else
+		::ScriptEngine.ResetProfilerTimes();
 	for (C4AulScriptContext *pCtx = Contexts; pCtx <= pCurCtx; ++pCtx)
 		pCtx->tTime = tNow;
 }
@@ -943,7 +946,10 @@ void C4AulExec::StopProfiling()
 	// collect profiler times
 	C4AulProfiler Profiler;
 	Profiler.CollectEntry(NULL, tDirectExecTotal);
-	pProfiledScript->CollectProfilerTimes(Profiler);
+	if(pProfiledScript)
+		pProfiledScript->GetPropList()->CollectProfilerTimes(Profiler);
+	else
+		::ScriptEngine.CollectProfilerTimes(Profiler);
 	Profiler.Show();
 }
 
@@ -983,21 +989,6 @@ void C4AulExec::PopContext()
 		}
 	}
 	pCurCtx--;
-}
-
-void C4AulProfiler::StartProfiling(C4AulScript *pScript)
-{
-	AulExec.StartProfiling(pScript);
-}
-
-void C4AulProfiler::StopProfiling()
-{
-	AulExec.StopProfiling();
-}
-
-void C4AulProfiler::Abort()
-{
-	AulExec.AbortProfiling();
 }
 
 void C4AulProfiler::CollectEntry(C4AulScriptFunc *pFunc, uint32_t tProfileTime)
@@ -1067,38 +1058,38 @@ C4Value C4AulExec::DirectExec(C4PropList *p, const char *szScript, const char *s
 	}
 }
 
-void C4AulScript::ResetProfilerTimes()
+void C4PropListStatic::ResetProfilerTimes()
 {
 	// zero all profiler times of owned functions
 	C4AulScriptFunc *pSFunc;
-	for (C4String *pFn = GetPropList()->EnumerateOwnFuncs(); pFn; pFn = GetPropList()->EnumerateOwnFuncs(pFn))
-		if ((pSFunc = GetPropList()->GetFunc(pFn)->SFunc()))
+	for (C4String *pFn = EnumerateOwnFuncs(); pFn; pFn = EnumerateOwnFuncs(pFn))
+		if ((pSFunc = GetFunc(pFn)->SFunc()))
 			pSFunc->tProfileTime = 0;
 }
 
-void C4AulScript::CollectProfilerTimes(C4AulProfiler &rProfiler)
+void C4PropListStatic::CollectProfilerTimes(C4AulProfiler &rProfiler)
 {
 	// collect all profiler times of owned functions
 	C4AulScriptFunc *pSFunc;
-	for (C4String *pFn = GetPropList()->EnumerateOwnFuncs(); pFn; pFn = GetPropList()->EnumerateOwnFuncs(pFn))
-		if ((pSFunc = GetPropList()->GetFunc(pFn)->SFunc()))
+	for (C4String *pFn = EnumerateOwnFuncs(); pFn; pFn = EnumerateOwnFuncs(pFn))
+		if ((pSFunc = GetFunc(pFn)->SFunc()))
 			rProfiler.CollectEntry(pSFunc, pSFunc->tProfileTime);
 }
 
 void C4AulScriptEngine::ResetProfilerTimes()
 {
 	// zero all profiler times of owned functions
-	C4AulScript::ResetProfilerTimes();
+	GetPropList()->ResetProfilerTimes();
 	// reset sub-scripts
 	for (C4AulScript *pScript = Child0; pScript; pScript = pScript->Next)
-		pScript->ResetProfilerTimes();
+		pScript->GetPropList()->ResetProfilerTimes();
 }
 
 void C4AulScriptEngine::CollectProfilerTimes(C4AulProfiler &rProfiler)
 {
 	// collect all profiler times of owned functions
-	C4AulScript::CollectProfilerTimes(rProfiler);
+	GetPropList()->CollectProfilerTimes(rProfiler);
 	// collect sub-scripts
 	for (C4AulScript *pScript = Child0; pScript; pScript = pScript->Next)
-		pScript->CollectProfilerTimes(rProfiler);
+		pScript->GetPropList()->CollectProfilerTimes(rProfiler);
 }

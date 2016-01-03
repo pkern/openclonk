@@ -258,6 +258,9 @@ public:
 	virtual const char *GetName() const;
 	const C4PropListStatic * GetParent() { return Parent; }
 	const C4String * GetParentKeyName() { return ParentKeyName; }
+
+	void ResetProfilerTimes(); // zero all profiler times of owned functions
+	void CollectProfilerTimes(class C4AulProfiler &rProfiler);
 protected:
 	const C4PropListStatic * Parent;
 	C4RefCntPointer<C4String> ParentKeyName; // property in parent this proplist was created in

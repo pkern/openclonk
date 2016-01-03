@@ -93,10 +93,6 @@ private:
 public:
 	void CollectEntry(C4AulScriptFunc *pFunc, uint32_t tProfileTime);
 	void Show();
-
-	static void Abort();
-	static void StartProfiling(C4AulScript *pScript);
-	static void StopProfiling();
 };
 
 
@@ -132,9 +128,6 @@ public:
 
 	virtual C4PropListStatic * GetPropList() { return 0; }
 	virtual C4ScriptHost * GetScriptHost() { return 0; }
-
-	virtual void ResetProfilerTimes(); // zero all profiler times of owned functions
-	virtual void CollectProfilerTimes(class C4AulProfiler &rProfiler);
 
 	friend class C4AulScriptEngine;
 	friend class C4AulDebug;
@@ -194,7 +187,7 @@ public:
 
 	// For the list of functions in the PropertyDlg
 	std::list<const char*> GetFunctionNames(C4PropList *);
-	void ResetProfilerTimes(); // zero all profiler times of owned functions
+	void ResetProfilerTimes(); // zero all profiler times of all functions
 	void CollectProfilerTimes(class C4AulProfiler &rProfiler);
 
 	void RegisterGlobalConstant(const char *szName, const C4Value &rValue); // creates a new constants or overwrites an old one
