@@ -114,7 +114,7 @@ public:
 };
 
 // holds all C4AulScripts
-class C4AulScriptEngine
+class C4AulScriptEngine: public C4PropListStaticMember
 {
 protected:
 	C4AulFuncMap FuncLookUp;
@@ -122,7 +122,6 @@ protected:
 	{ return FuncLookUp.GetFirstFunc(Name); }
 	C4AulFunc * GetNextSNFunc(const C4AulFunc * After)
 	{ return FuncLookUp.GetNextSNFunc(After); }
-	C4Value GlobalPropList;
 	C4ScriptHost *Child0, *ChildL; // tree structure
 
 	// all open user files
@@ -150,7 +149,7 @@ public:
 	void Clear(); // clear data
 	void Link(C4DefList *rDefs); // link and parse all scripts
 	void ReLink(C4DefList *rDefs); // unlink, link and parse all scripts
-	C4PropListStatic * GetPropList();
+	C4PropListStatic * GetPropList() { return this; }
 	C4Value Call(const char * k, C4AulParSet *pPars=0, bool fPassErrors=false)
 	{ return GetPropList()->Call(k, pPars, fPassErrors); }
 	bool ReloadScript(const char *szScript, const char *szLanguage); // search script and reload, if found
@@ -163,7 +162,7 @@ public:
 	void RegisterGlobalConstant(const char *szName, const C4Value &rValue); // creates a new constants or overwrites an old one
 	bool GetGlobalConstant(const char *szName, C4Value *pTargetValue); // check if a constant exists; assign value to pTargetValue if not NULL
 
-	bool Denumerate(C4ValueNumbers *);
+	void Denumerate(C4ValueNumbers *);
 	void UnLink(); // called when a script is being reloaded (clears string table)
 
 	// Compile scenario script data (without strings and constants)
