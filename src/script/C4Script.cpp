@@ -739,7 +739,7 @@ static bool FnStartCallTrace(C4PropList * _this)
 static bool FnStartScriptProfiler(C4PropList * _this, C4Def * pDef)
 {
 	// get script to profile
-	C4AulScript *pScript;
+	C4ScriptHost *pScript;
 	if (pDef)
 		pScript = &pDef->Script;
 	else

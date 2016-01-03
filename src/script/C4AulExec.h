@@ -68,7 +68,7 @@ private:
 	bool fProfiling;
 	C4TimeMilliseconds tDirectExecStart;
 	uint32_t tDirectExecTotal; // profiler time for DirectExec
-	C4AulScript *pProfiledScript;
+	C4ScriptHost *pProfiledScript;
 
 	C4AulScriptContext Contexts[MAX_CONTEXT_STACK];
 	C4Value Values[MAX_VALUE_STACK];
@@ -79,7 +79,7 @@ public:
 	C4Value DirectExec(C4PropList *p, const char *szScript, const char *szContext, bool fPassErrors = false, C4AulScriptContext* context = NULL);
 
 	void StartTrace();
-	void StartProfiling(C4AulScript *pScript); // resets profling times and starts recording the times
+	void StartProfiling(C4ScriptHost *pScript); // resets profling times and starts recording the times
 	void StopProfiling(); // stop the profiler and displays results
 	void AbortProfiling() { fProfiling=false; }
 	inline void StartDirectExec() { if (fProfiling) tDirectExecStart = C4TimeMilliseconds::Now(); }

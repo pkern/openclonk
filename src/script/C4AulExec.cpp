@@ -920,7 +920,7 @@ void C4AulExec::StartTrace()
 		iTraceStart = ContextStackSize();
 }
 
-void C4AulExec::StartProfiling(C4AulScript *pProfiledScript)
+void C4AulExec::StartProfiling(C4ScriptHost *pProfiledScript)
 {
 	// stop previous profiler run
 	if (fProfiling) AbortProfiling();
@@ -1081,7 +1081,7 @@ void C4AulScriptEngine::ResetProfilerTimes()
 	// zero all profiler times of owned functions
 	GetPropList()->ResetProfilerTimes();
 	// reset sub-scripts
-	for (C4AulScript *pScript = Child0; pScript; pScript = pScript->Next)
+	for (C4ScriptHost *pScript = Child0; pScript; pScript = pScript->Next)
 		pScript->GetPropList()->ResetProfilerTimes();
 }
 
@@ -1090,6 +1090,6 @@ void C4AulScriptEngine::CollectProfilerTimes(C4AulProfiler &rProfiler)
 	// collect all profiler times of owned functions
 	GetPropList()->CollectProfilerTimes(rProfiler);
 	// collect sub-scripts
-	for (C4AulScript *pScript = Child0; pScript; pScript = pScript->Next)
+	for (C4ScriptHost *pScript = Child0; pScript; pScript = pScript->Next)
 		pScript->GetPropList()->CollectProfilerTimes(rProfiler);
 }
