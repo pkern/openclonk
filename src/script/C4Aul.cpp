@@ -39,9 +39,6 @@ void C4AulError::show()
 
 C4AulScript::C4AulScript()
 {
-	// not compiled
-	State = ASS_NONE;
-
 	// prepare lists
 	Prev = Next = NULL;
 	Engine = NULL;
@@ -68,8 +65,6 @@ void C4AulScript::Unreg()
 
 void C4AulScript::Clear()
 {
-	// reset flags
-	State = ASS_NONE;
 }
 
 

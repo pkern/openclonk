@@ -720,7 +720,7 @@ bool C4ScriptHost::Preparse()
 	GetPropList()->Properties.Swap(&LocalValues);
 
 	// return success
-	C4AulScript::State = ASS_PREPARSED;
+	this->State = ASS_PREPARSED;
 	return true;
 }
 

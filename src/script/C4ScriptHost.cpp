@@ -25,7 +25,8 @@
 
 /*--- C4ScriptHost ---*/
 
-C4ScriptHost::C4ScriptHost()
+C4ScriptHost::C4ScriptHost():
+	State(ASS_NONE) // not compiled
 {
 	Script = NULL;
 	stringTable = 0;
@@ -59,6 +60,8 @@ void C4ScriptHost::Clear()
 	// remove includes
 	Includes.clear();
 	Appends.clear();
+	// reset flags
+	State = ASS_NONE;
 }
 
 bool C4ScriptHost::Load(C4Group &hGroup, const char *szFilename,
