@@ -22,6 +22,8 @@
 #include "StdMeshMath.h"
 #include "C4Surface.h"
 
+#include <epoxy/gl.h>
+
 // Shader version
 const int C4Shader_Version = 120; // GLSL 1.20 / OpenGL 2.1
 

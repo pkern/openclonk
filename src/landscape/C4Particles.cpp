@@ -1304,7 +1304,7 @@ C4ParticleSystem::~C4ParticleSystem()
 void C4ParticleSystem::DoInit()
 {
 	// we use features that are only supported from 3.1 upwards. Check whether the graphics card supports that and - if not - use workarounds
-	if (!GLEW_VERSION_3_1 || (glPrimitiveRestartIndex == 0))
+	if ((epoxy_gl_version() < 31) || (glPrimitiveRestartIndex == 0))
 	{
 		usePrimitiveRestartIndexWorkaround = true;
 		LogSilent("WARNING (particle system): Your graphics card does not support glPrimitiveRestartIndex - a (slower) fallback will be used!");

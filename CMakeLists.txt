@@ -253,14 +253,8 @@ endif()
 include_directories(SYSTEM ${TinyXML_INCLUDE_DIRS})
 
 find_package(OpenGL)
-find_package(GLEW REQUIRED)
-include_directories(${GLEW_INCLUDE_DIRS})
-add_definitions(${GLEW_DEFINITIONS})
-# On some platforms, GLEW declares the userParam parameter of
-# GLDEBUGPROCARB as const void *, and on other platforms, it's void *.
-# Test which one works here.
-set(CMAKE_REQUIRED_INCLUDES "${GLEW_INCLUDE_DIRS}")
-CHECK_CXX_SOURCE_COMPILES("#include <GL/glew.h>\nvoid GLAPIENTRY OpenGLDebugProc(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const char* message, const void* userParam) {}\nint main() { GLDEBUGPROCARB proc = &OpenGLDebugProc; }" GLDEBUGPROCARB_USERPARAM_IS_CONST)
+find_package(Epoxy REQUIRED)
+include_directories(${Epoxy_INCLUDE_DIRS})
 
 if(USE_X11)
 	FINDLIB(X11_LIBRARIES X11)
@@ -1096,7 +1090,7 @@ target_link_libraries(openclonk
 	${SDL_LIBRARY}
 	${Audio_LIBRARIES}
 	${GETOPT_LIBRARIES}
-	${GLEW_LIBRARIES}
+	${Epoxy_LIBRARIES}
 	${OPENGL_LIBRARIES}
 	${TinyXML_LIBRARIES}
 	${X11_LIBRARIES}
@@ -1493,9 +1487,4 @@ set(CPACK_PACKAGE_VERSION_MINOR "${C4XVER2}")
 set(CPACK_PACKAGE_FILE_NAME "openclonk-${C4XVER1}.${C4XVER2}")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "openclonk-src-${C4XVER1}.${C4XVER2}")
 set(CPACK_SOURCE_GENERATOR "TGZ;ZIP")
-# Somebody who uses Debian/Ubuntu should set this
-#set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6, libgcc1, libx11, libXrandr, libXpm, libGLEW, libGL, libpng, libSDL-1.2, libSDL_mixer-1.2, gtk2, libjpeg, zlib")
-set(CPACK_RPM_PACKAGE_LICENSE "MIT")
-set(CPACK_RPM_PACKAGE_REQUIRES "libc6, libgcc1, libx11, libXrandr, libXpm, libGLEW, libGL, libpng, libSDL-1.2, libSDL_mixer-1.2, gtk2, libjpeg, zlib")
-
 include(CPack)

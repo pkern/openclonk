@@ -290,7 +290,7 @@ CStdGLCtx *CStdGL::CreateContext(C4Window * pWindow, C4AbstractApp *pApp)
 		glDebugMessageCallbackARB(&OpenGLDebugProc, nullptr);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
 #ifdef GL_KHR_debug
-		if (GLEW_KHR_debug)
+		if (epoxy_has_gl_extension("GL_KHR_debug"))
 			glEnable(GL_DEBUG_OUTPUT);
 #endif
 	}
@@ -382,7 +382,7 @@ bool CStdGL::CreatePrimarySurfaces(unsigned int, unsigned int, int iColorDepth, 
 	// - Intel integrated GPUs have supported OpenGL 2.1 since Clarkdale (maybe earlier).
 	// And we've already been using features from OpenGL 2.1. Nobody has complained yet.
 	// So checking for 2.1 support should be fine.
-	if (!GLEW_VERSION_2_1)
+	if (epoxy_gl_version() < 21)
 	{
 		return Error("  gl: OpenGL Version 2.1 or higher required. A better graphics driver will probably help.");
 	}
